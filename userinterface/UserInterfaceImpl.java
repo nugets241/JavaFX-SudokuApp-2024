@@ -40,8 +40,14 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
      */
     private final Stage stage;
 
+    /**
+     * The root group where all other nodes in the scene graph will be added.
+     */
     private final Group root;
 
+    /**
+     * The main container for the user interface, where all UI elements are added.
+     */
     private final VBox mainUIContainer;
 
     /**
@@ -116,6 +122,10 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         this.listener = listener;
     }
 
+    /**
+     * Initializes the user interface by setting up the VBox, Group, and Scene, and
+     * then showing the stage.
+     */
     public void initializeUserInterface() {
         setupVBox();
         setupGroup();
@@ -123,12 +133,19 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         stage.show();
     }
 
+    /**
+     * Sets up the Group by drawing the Sudoku board, text fields, and grid lines.
+     */
     private void setupGroup() {
         drawSudokuBoard(root);
         drawTextFields(root);
         drawGridLines(root);
     }
 
+    /**
+     * Sets up the VBox by drawing the title and background, configuring the VBox,
+     * and adding the root to its children.
+     */
     private void setupVBox() {
         drawTitle(mainUIContainer);
         drawBackground(mainUIContainer);
@@ -136,11 +153,22 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         mainUIContainer.getChildren().add(root);
     }
 
+    /**
+     * Configures the VBox by setting the spacing and alignment.
+     *
+     * @param mainUIContainer The VBox to be configured.
+     */
     private void configureVBox(VBox mainUIContainer) {
         mainUIContainer.setSpacing(10);
         mainUIContainer.setAlignment(Pos.TOP_CENTER);
     }
 
+    /**
+     * Sets the Scene by creating a new Scene with the VBox and the window
+     * dimensions, and setting it on the stage.
+     *
+     * @param mainUIContainer The VBox to be used in the Scene.
+     */
     private void setScene(VBox mainUIContainer) {
         Scene scene = new Scene(mainUIContainer, WINDOW_X, WINDOW_Y);
         stage.setScene(scene);
@@ -305,6 +333,13 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         root.getChildren().add(boardBackground);
     }
 
+    /**
+     * Draws the title of the game on the provided VBox. It creates a Text node with
+     * the title,
+     * sets its color and font, and adds it to the VBox.
+     *
+     * @param mainUIContainer The VBox on which the title is to be drawn.
+     */
     private void drawTitle(VBox mainUIContainer) {
         // Use a constant for the icon file path
         final String ICON_PATH = "icon.jpeg";
@@ -323,6 +358,13 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         mainUIContainer.getChildren().add(title);
     }
 
+    /**
+     * Draws the background of the game on the provided VBox. It creates an Image
+     * node with the background image,
+     * sets it as the background of the VBox.
+     *
+     * @param mainUIContainer The VBox on which the background is to be drawn.
+     */
     private void drawBackground(VBox mainUIContainer) {
         Image image = new Image("background.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,
@@ -426,8 +468,6 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
      * handleInput method with the number and the source of the event.
      * If the key pressed is the backspace key, it calls the handleInput method with
      * 0 and the source of the event.
-     * If the key pressed is any other key, it clears the text of the source of the
-     * event.
      * The event is then consumed to prevent further propagation.
      *
      * @param event The KeyEvent to handle.
