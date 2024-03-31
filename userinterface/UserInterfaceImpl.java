@@ -128,6 +128,12 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         stage.show();
     }
 
+    private void setupGroup() {
+        drawSudokuBoard(root);
+        drawTextFields(root);
+        drawGridLines(root);
+    }
+
     private void setupVBox() {
         drawTitle(mainUIContainer);
         drawBackground(mainUIContainer);
@@ -135,10 +141,9 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         mainUIContainer.getChildren().add(mainUIContainer);
     }
 
-    private void setupGroup() {
-        drawSudokuBoard(root);
-        drawTextFields(root);
-        drawGridLines(root);
+    private void configureVBox(VBox mainUIContainer) {
+        mainUIContainer.setSpacing(10);
+        mainUIContainer.setAlignment(Pos.TOP_CENTER);
     }
 
     /**
