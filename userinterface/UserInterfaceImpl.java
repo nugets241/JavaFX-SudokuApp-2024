@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -33,10 +34,9 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
      */
     private final Stage stage;
 
-    /**
-     * The root group that contains all other nodes in the scene graph.
-     */
     private final Group root;
+
+    private final VBox mainUIContainer;
 
     /**
      * A HashMap that stores the SudokuTextField objects. The key is a Coordinates
@@ -90,7 +90,8 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
 
     /**
      * Constructs a new UserInterfaceImpl object.
-     * Initializes the stage, root group, and textFieldCoordinates.
+     * Initializes the stage, root group, main UI container, and
+     * textFieldCoordinates.
      * Calls the initializeUserInterface method to set up the user interface.
      *
      * @param stage The primary stage on which the game is displayed.
@@ -98,6 +99,7 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
     public UserInterfaceImpl(Stage stage) {
         this.stage = stage;
         this.root = new Group();
+        this.mainUIContainer = new VBox();
         this.textFieldCoordinates = new HashMap<>();
         initializeUserInterface();
     }
@@ -113,18 +115,24 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         this.listener = listener;
     }
 
-    /**
-     * Initializes the user interface.
-     * Draws the background, title, Sudoku board, text fields, and grid lines.
-     * Shows the stage.
-     */
     public void initializeUserInterface() {
-        drawBackground(root);
-        drawTitle(root);
+        setupVBox();
+        setupGroup();
+        setScene(mainUIContainer);
+        stage.show();
+    }
+
+    private void setupVBox() {
+        drawTitle(mainUIContainer);
+        drawBackground(mainUIContainer);
+        configureVBox(mainUIContainer);
+        mainUIContainer.getChildren().add(mainUIContainer);
+    }
+
+    private void setupGroup() {
         drawSudokuBoard(root);
         drawTextFields(root);
         drawGridLines(root);
-        stage.show();
     }
 
     /**
