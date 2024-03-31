@@ -158,6 +158,12 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
                 // encapsulated style information
                 styleSudokuTile(tile, x, y);
 
+                tile.textProperty().addListener((obs, oldValue, newValue) -> {
+                    if (!newValue.matches("\\d*")) {
+                        tile.setText(oldValue);
+                    }
+                });
+
                 // Note: Note that UserInterfaceImpl implements EventHandler<ActionEvent> in the
                 // class declaration.
                 // By passing "this" (which means the current instance of UserInterfaceImpl),
@@ -412,8 +418,6 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
      */
     @Override
     public void handle(KeyEvent event) {
-        System.out.println("event.getCode: " + event.getCode());
-        System.out.println("KeyCode.BACK_SPACE: " + KeyCode.BACK_SPACE.getCode());
         if (event.getEventType() == KeyEvent.KEY_PRESSED) {
             if (event.getText().equals("0")
                     || event.getText().equals("1")
