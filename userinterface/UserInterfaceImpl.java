@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -305,21 +307,22 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         root.getChildren().add(boardBackground);
     }
 
-    /**
-     * Draws the title of the Sudoku game on the root group. It creates a Text
-     * object
-     * with the title string and specified position, sets its color to white and its
-     * font size to 43, and adds it to the root group.
-     *
-     * @param root The Group instance representing the root node of the scene graph.
-     *             The title is added to this group.
-     */
-    private void drawTitle(Group root) {
-        Text title = new Text(235, 690, SUDOKU);
-        title.setFill(Color.WHITE);
-        Font titleFont = new Font(43);
+    private void drawTitle(VBox mainUIContainer) {
+        // Use a constant for the icon file path
+        final String ICON_PATH = "icon.jpeg";
+        stage.getIcons().add(new Image(ICON_PATH));
+        stage.setTitle(SUDOKU);
+
+        Text title = new Text(SUDOKU);
+        title.setFill(Color.rgb(213, 228, 236));
+
+        // Use constants for font properties
+        final String FONT_NAME = "Comic Sans MS";
+        final double FONT_SIZE = 50;
+        Font titleFont = Font.font(FONT_NAME, FontWeight.BOLD, FONT_SIZE);
         title.setFont(titleFont);
-        root.getChildren().add(title);
+
+        mainUIContainer.getChildren().add(title);
     }
 
     /**
