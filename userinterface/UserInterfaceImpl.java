@@ -14,6 +14,10 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -323,6 +327,13 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         title.setFont(titleFont);
 
         mainUIContainer.getChildren().add(title);
+    }
+
+    private void drawBackground(VBox mainUIContainer) {
+        Image image = new Image("background.jpg");
+        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+        mainUIContainer.setBackground(new Background(backgroundImage));
     }
 
     /**
