@@ -80,11 +80,6 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
     private static final double BOARD_X_AND_Y = 576;
 
     /**
-     * The background color of the window.
-     */
-    private static final Color WINDOW_BACKGROUND_COLOR = Color.rgb(0, 150, 136);
-
-    /**
      * The background color of the board.
      */
     private static final Color BOARD_BACKGROUND_COLOR = Color.rgb(224, 242, 241);
@@ -138,12 +133,17 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         drawTitle(mainUIContainer);
         drawBackground(mainUIContainer);
         configureVBox(mainUIContainer);
-        mainUIContainer.getChildren().add(mainUIContainer);
+        mainUIContainer.getChildren().add(root);
     }
 
     private void configureVBox(VBox mainUIContainer) {
         mainUIContainer.setSpacing(10);
         mainUIContainer.setAlignment(Pos.TOP_CENTER);
+    }
+
+    private void setScene(VBox mainUIContainer) {
+        Scene scene = new Scene(mainUIContainer, WINDOW_X, WINDOW_Y);
+        stage.setScene(scene);
     }
 
     /**
@@ -283,17 +283,6 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
 
         line.setFill(Color.BLACK);
         return line;
-    }
-
-    /**
-     * Sets the background of the stage to the specified color and dimensions.
-     *
-     * @param root The root node of the scene graph.
-     */
-    private void drawBackground(Group root) {
-        Scene scene = new Scene(root, WINDOW_X, WINDOW_Y);
-        scene.setFill(WINDOW_BACKGROUND_COLOR);
-        stage.setScene(scene);
     }
 
     /**
@@ -460,8 +449,6 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
                 handleInput(value, event.getSource());
             } else if (event.getCode() == KeyCode.BACK_SPACE) {
                 handleInput(0, event.getSource());
-            } else {
-                ((TextField) event.getSource()).setText("");
             }
         }
 
