@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -151,6 +152,25 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         drawBackground(mainUIContainer);
         configureVBox(mainUIContainer);
         mainUIContainer.getChildren().add(root);
+        drawNewGameButton(mainUIContainer);
+    }
+
+    /**
+     * Draws the New Game button on the main UI container.
+     *
+     * @param mainUIContainer The VBox on which the button is to be drawn.
+     */
+    private void drawNewGameButton(VBox mainUIContainer) {
+        Button newGameButton = new Button("New Game");
+        newGameButton.setOnAction(e -> {
+            listener.onNewGameButtonClick();
+        });
+
+        // Set the style of the button
+        newGameButton.setStyle(
+                "-fx-background-color: rgb(213, 228, 236); -fx-text-fill: rgba(0, 0, 0, 0.8); -fx-font-family: 'Comic Sans MS'; -fx-font-weight: BOLD; -fx-font-size: 25px;");
+
+        mainUIContainer.getChildren().add(newGameButton);
     }
 
     /**
@@ -234,7 +254,7 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
      * @param y    The y-coordinate for the tile's layout.
      */
     private void styleSudokuTile(SudokuTextField tile, double x, double y) {
-        Font numberFont = new Font(32);
+        Font numberFont = Font.font("Comic Sans MS", FontWeight.SEMI_BOLD, 25);
         tile.setFont(numberFont);
         tile.setAlignment(Pos.CENTER);
 

@@ -102,4 +102,22 @@ public class ControlLogic implements IUserInterfaceContract.EventListener {
             view.showError(Messages.ERROR);
         }
     }
+
+    /**
+     * Handles the click event from the New Game button in the user interface for a
+     * Sudoku game.
+     * This method updates the game data in storage with a new game and updates the
+     * board view to reflect the new game.
+     * If an error occurs during this process, it shows an error dialog.
+     */
+    @Override
+    public void onNewGameButtonClick() {
+        try {
+            SudokuGame newGame = GameLogic.getNewGame();
+            storage.updateGameData(newGame);
+            view.updateBoard(newGame);
+        } catch (IOException e) {
+            view.showError(Messages.ERROR);
+        }
+    }
 }

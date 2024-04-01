@@ -27,6 +27,11 @@ public interface IUserInterfaceContract {
          * Triggered when a dialog is clicked.
          */
         void onDialogClick();
+
+        /**
+         * Triggered when the New Game button is clicked.
+         */
+        void onNewGameButtonClick();
     }
 
     /**
