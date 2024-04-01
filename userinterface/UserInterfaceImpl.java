@@ -475,16 +475,7 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
     @Override
     public void handle(KeyEvent event) {
         if (event.getEventType() == KeyEvent.KEY_PRESSED) {
-            if (event.getText().equals("0")
-                    || event.getText().equals("1")
-                    || event.getText().equals("2")
-                    || event.getText().equals("3")
-                    || event.getText().equals("4")
-                    || event.getText().equals("5")
-                    || event.getText().equals("6")
-                    || event.getText().equals("7")
-                    || event.getText().equals("8")
-                    || event.getText().equals("9")) {
+            if (event.getText().matches("[0-9]")) {
                 int value = Integer.parseInt(event.getText());
                 handleInput(value, event.getSource());
             } else if (event.getCode() == KeyCode.BACK_SPACE) {
