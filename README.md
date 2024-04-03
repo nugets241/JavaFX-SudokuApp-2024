@@ -8,6 +8,8 @@ This is a Sudoku game application developed in Java using JavaFX programmaticall
 
 - The `SudokuSolver` class has been updated to fix a logical error in the `puzzleIsSolvable` method. The method now correctly checks if a puzzle is solvable and handles backtracking properly.
 
+- Added a feature to select the difficulty level when clicking the 'New Game' button to start a new game. This influences the number of empty cells in the generated puzzle.
+
 ## Prerequisites
 
 Before you begin, ensure you have met the following prerequisites:
