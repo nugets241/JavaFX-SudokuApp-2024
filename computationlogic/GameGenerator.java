@@ -1,6 +1,8 @@
 package computationlogic;
 
 import problemdomain.Coordinates;
+import problemdomain.SudokuGame;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -115,7 +117,7 @@ class GameGenerator {
      *
      * The process is as follows:
      * 1. Copy values from the solved game to a new array.
-     * 2. Randomly remove 40 values from the new array.
+     * 2. Randomly remove values from the new array.
      * 3. Test the new array for solvability.
      * 4. If the new array is solvable, return it. If not, go back to step 1.
      *
@@ -136,9 +138,9 @@ class GameGenerator {
             // state
             SudokuUtilities.copySudokuArrayValues(solvedGame, solvableArray);
 
-            // remove 40 random numbers
+            // remove random numbers depending on difficulty level
             int index = 0;
-            while (index < 40) {
+            while (index < SudokuGame.getDifficultyValue()) {
                 int xCoordinate = random.nextInt(GRID_BOUNDARY);
                 int yCoordinate = random.nextInt(GRID_BOUNDARY);
 
@@ -150,12 +152,9 @@ class GameGenerator {
 
             int[][] toBeSolved = new int[GRID_BOUNDARY][GRID_BOUNDARY];
             SudokuUtilities.copySudokuArrayValues(solvableArray, toBeSolved);
-            // check if result is solvable
+
             solvable = SudokuSolver.puzzleIsSolvable(toBeSolved);
-
-            System.out.println(solvable);
         }
-
         return solvableArray;
     }
 
