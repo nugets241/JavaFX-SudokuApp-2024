@@ -1,51 +1,55 @@
 package computationlogic;
 
 import problemdomain.Coordinates;
+import problemdomain.SudokuGame;
 
 import static problemdomain.SudokuGame.GRID_BOUNDARY;
 
 /**
- * The SudokuSolver class provides a static method to check if a given Sudoku
- * puzzle is solvable.
+ * The SudokuSolver class provides functionality to determine if a given Sudoku
+ * puzzle can be solved.
  *
- * The class uses a simple solving algorithm that enumerates all empty cells in
- * typewriter order (left to right, top to bottom).
- * It then tries to fill each cell with a number from 1 to 9. If a number
- * violates the Sudoku condition, it tries the next number.
- * If it reaches 9 and still violates the condition, it backtracks to the
- * previous cell and continues with the next number.
+ * This class employs a backtracking algorithm that iterates through all empty
+ * cells in a typewriter-like order (left to right, top to bottom). For each
+ * cell, it attempts to fill it with a number from 1 to 9. If the number
+ * violates the Sudoku rules, it tries the next number. If it exhausts all
+ * numbers up to 9 and none of them fit, it backtracks to the previous cell and
+ * continues with the next number.
  *
- * The algorithm stops when it either finds a solution or determines that no
- * solution is possible.
+ * The algorithm terminates when it either finds a solution or concludes that no
+ * solution exists.
  *
- * Note: This class assumes that the size of input O(n) is small. Using lots of
- * nested loops is only appropriate under this assumption.
+ * Note: This class is designed to work efficiently with small input sizes
+ * (O(n)). The use of multiple nested loops is justified under this assumption.
  */
 public class SudokuSolver {
 
     /**
-     * Checks if the provided Sudoku puzzle is solvable.
+     * Determines if the provided Sudoku puzzle can be solved.
      *
-     * The method uses a simple solving algorithm that enumerates all empty cells in
-     * typewriter order (left to right, top to bottom).
-     * It then tries to fill each cell with a number from 1 to 9. If a number
-     * violates the Sudoku condition, it tries the next number.
-     * If it reaches 9 and still violates the condition, it backtracks to the
-     * previous cell and continues with the next number.
+     * This method employs a backtracking algorithm that iterates through all empty
+     * cells in a typewriter-like order (left to right, top to bottom). For each
+     * cell, it attempts to fill it with a number from 1 to 9. If the number
+     * violates the Sudoku rules, it tries the next number. If it exhausts all
+     * numbers up to 9 and none of them fit, it backtracks to the previous cell and
+     * continues with the next number.
      *
-     * The algorithm stops when it either finds a solution or determines that no
-     * solution is possible.
-     *
-     * Note: This method assumes that the size of input O(n) is small. Using lots of
-     * nested loops is only appropriate under this assumption.
+     * The algorithm terminates when it either finds a solution or concludes that no
+     * solution exists.
      *
      * @param puzzle The 2D array representing the Sudoku puzzle to be solved.
-     * @return true if the puzzle is solvable, false otherwise.
+     * @return true if the puzzle can be solved, false otherwise.
      */
     public static boolean puzzleIsSolvable(int[][] puzzle) {
-        Coordinates[] emptyCells = typeWriterEnumerate(puzzle);
 
-        int[] cellValues = new int[40];
+        // Get the number of empty cells in the puzzle
+        int emptyCellsCount = SudokuGame.getDifficultyValue();
+
+        // Enumerate all empty cells in the puzzle
+        Coordinates[] emptyCells = typeWriterEnumerate(puzzle, emptyCellsCount);
+
+        // Store temporary values for each empty cell for backtracking
+        int[] cellValues = new int[emptyCellsCount];
 
         int index = 0;
         int input = 0;
@@ -88,31 +92,28 @@ public class SudokuSolver {
     }
 
     /**
-     * Enumerates all empty cells in the given Sudoku puzzle in typewriter order
-     * (left to right, top to bottom).
+     * Enumerates all empty cells in the given Sudoku puzzle in a typewriter-like
+     * order (left to right, top to bottom).
      *
      * This method traverses the puzzle grid from left to right for each row from
-     * top to bottom,
-     * adding the coordinates of each empty cell (represented by 0 in the puzzle
-     * grid) to an array.
+     * top to bottom, adding the coordinates of each empty cell (represented by 0 in
+     * the puzzle grid) to an array. The enumeration stops when the maximum number
+     * of empty cells (emptyCellsCount) is reached.
      *
-     * The method assumes that the maximum number of empty cells is 40, as per the
-     * GameGenerator class.
-     * If the number of empty cells exceeds 39, the method returns the array
-     * immediately.
-     *
-     * @param puzzle The 2D array representing the Sudoku puzzle to be enumerated.
+     * @param puzzle          The 2D array representing the Sudoku puzzle to be
+     *                        enumerated.
+     * @param emptyCellsCount The maximum number of empty cells to be enumerated.
      * @return An array of Coordinates objects representing the positions of all
      *         empty cells in the puzzle.
      */
-    private static Coordinates[] typeWriterEnumerate(int[][] puzzle) {
-        Coordinates[] emptyCells = new Coordinates[40];
+    private static Coordinates[] typeWriterEnumerate(int[][] puzzle, int emptyCellsCount) {
+        Coordinates[] emptyCells = new Coordinates[emptyCellsCount];
         int iterator = 0;
         for (int y = 0; y < GRID_BOUNDARY; y++) {
             for (int x = 0; x < GRID_BOUNDARY; x++) {
                 if (puzzle[x][y] == 0) {
                     emptyCells[iterator] = new Coordinates(x, y);
-                    if (iterator == 39)
+                    if (iterator == emptyCellsCount - 1)
                         return emptyCells;
                     iterator++;
                 }
@@ -120,5 +121,4 @@ public class SudokuSolver {
         }
         return emptyCells;
     }
-
 }
