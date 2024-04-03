@@ -4,11 +4,17 @@
 
 This is a Sudoku game application developed in Java using JavaFX programmatically for the graphical user interface. The application was inspired by a tutorial from Ryan Micheal Kay's YouTube channel, which can be found [here](https://www.youtube.com/watch?v=JFiEYuyTgL8&t=876s).
 
-## Updates
+## Changelog
 
-- The `SudokuSolver` class has been updated to fix a logical error in the `puzzleIsSolvable` method. The method now correctly checks if a puzzle is solvable and handles backtracking properly.
+### Latest Update
+
+- Added keyboard shortcuts for starting a new game and quitting the game, and updated GUI to display these shortcuts.
+
+### Previous Updates
 
 - Added a feature to select the difficulty level when clicking the 'New Game' button to start a new game. This influences the number of empty cells in the generated puzzle.
+
+- The `SudokuSolver` class has been updated to fix a logical error in the `puzzleIsSolvable` method. The method now correctly checks if a puzzle is solvable and handles backtracking properly.
 
 ## Prerequisites
 
