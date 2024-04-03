@@ -1,6 +1,7 @@
 package problemdomain;
 
 import computationlogic.SudokuUtilities;
+import constants.Difficulty;
 import constants.GameState;
 
 import java.io.Serializable;
@@ -27,6 +28,11 @@ import java.io.Serializable;
  * @see SudokuUtilities
  */
 public class SudokuGame implements Serializable {
+
+    /**
+     * The difficulty level of the Sudoku game. It is initially set to MEDIUM.
+     */
+    private static Difficulty difficulty = Difficulty.MEDIUM;
 
     /**
      * Represents the state of the Sudoku game.
@@ -88,5 +94,41 @@ public class SudokuGame implements Serializable {
      */
     public int[][] getCopyOfGridState() {
         return SudokuUtilities.copyToNewArray(gridState);
+    }
+
+    /**
+     * Returns the current difficulty level of the Sudoku game.
+     *
+     * @return the current difficulty level
+     */
+    public static Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    /**
+     * Sets the difficulty level of the Sudoku game.
+     *
+     * @param difficulty the new difficulty level
+     */
+    public static void setDifficulty(Difficulty difficulty) {
+        SudokuGame.difficulty = difficulty;
+    }
+
+    /**
+     * Returns the name of the current difficulty level.
+     *
+     * @return the name of the current difficulty level
+     */
+    public static String getDifficultyName() {
+        return difficulty.getName();
+    }
+
+    /**
+     * Returns the value of the current difficulty level.
+     *
+     * @return the value of the current difficulty level
+     */
+    public static int getDifficultyValue() {
+        return difficulty.getValue();
     }
 }
