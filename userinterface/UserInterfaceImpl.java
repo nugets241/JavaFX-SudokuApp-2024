@@ -21,6 +21,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -75,12 +76,12 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
     /**
      * The height of the window.
      */
-    private static final double WINDOW_Y = 732;
+    private static final double WINDOW_Y = 775;
 
     /**
      * The width of the window.
      */
-    private static final double WINDOW_X = 668;
+    private static final double WINDOW_X = 700;
 
     /**
      * The distance between the window and the board.
@@ -159,29 +160,57 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
         configureVBox(mainUIContainer);
         mainUIContainer.getChildren().add(root);
         drawNewGameButton(mainUIContainer);
+        drawAdditionalText(mainUIContainer);
+    }
+
+    private void drawAdditionalText(VBox mainUIContainer) {
+        HBox textContainer = new HBox();
+        textContainer.setSpacing(50);
+        textContainer.setAlignment(Pos.CENTER);
+
+        Text pressNText = new Text("Press N = New Game");
+        pressNText.setFont(Font.font("Comic Sans MS", FontWeight.SEMI_BOLD, 15));
+        pressNText.setFill(Color.rgb(213, 228, 236));
+
+        Text pressQText = new Text("Press Q or ESC = Quit Game");
+        pressQText.setFont(Font.font("Comic Sans MS", FontWeight.SEMI_BOLD, 15));
+        pressQText.setFill(Color.rgb(213, 228, 236));
+
+        textContainer.getChildren().addAll(pressNText, pressQText);
+        mainUIContainer.getChildren().add(textContainer);
     }
 
     /**
      * Draws a new game button on the specified container.
-     * When the button is clicked, a dialog is shown for selecting the difficulty level.
-     * If a difficulty level is selected, the game's difficulty level is set to the selected level and a new game is started.
+     * When the button is clicked, a dialog is shown for selecting the difficulty
+     * level.
+     * If a difficulty level is selected, the game's difficulty level is set to the
+     * selected level and a new game is started.
      *
      * @param mainUIContainer the container on which to draw the new game button
      */
     private void drawNewGameButton(VBox mainUIContainer) {
         Button newGameButton = createNewGameButton();
-        ChoiceDialog<String> dialog = createDifficultyDialog();
-        Map<String, Difficulty> difficultyMap = createDifficultyMap();
-
         newGameButton.setOnAction(e -> {
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                SudokuGame.setDifficulty(difficultyMap.get(result.get()));
-                listener.onNewGameButtonClick();
-            }
+            handleNewGameButtonClick();
         });
 
         mainUIContainer.getChildren().add(newGameButton);
+    }
+
+    /**
+     * Handles the button click event for the "New Game" button.
+     * Displays a dialog to choose the difficulty level of the Sudoku game.
+     * Sets the selected difficulty level and notifies the listener.
+     */
+    private void handleNewGameButtonClick() {
+        ChoiceDialog<String> dialog = createDifficultyDialog();
+        Map<String, Difficulty> difficultyMap = createDifficultyMap();
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            SudokuGame.setDifficulty(difficultyMap.get(result.get()));
+            listener.onNewGameButtonClick();
+        }
     }
 
     /**
@@ -191,7 +220,8 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
      */
     private Button createNewGameButton() {
         Button newGameButton = new Button("New Game");
-        newGameButton.setStyle("-fx-background-color: rgb(213, 228, 236); -fx-text-fill: rgba(0, 0, 0, 0.8); -fx-font-family: 'Comic Sans MS'; -fx-font-weight: BOLD; -fx-font-size: 25px;");
+        newGameButton.setStyle(
+                "-fx-background-color: rgb(213, 228, 236); -fx-text-fill: rgba(0, 0, 0, 0.8); -fx-font-family: 'Comic Sans MS'; -fx-font-weight: BOLD; -fx-font-size: 25px;");
         return newGameButton;
     }
 
@@ -557,9 +587,18 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
                 handleInput(value, event.getSource());
             } else if (event.getCode() == KeyCode.BACK_SPACE) {
                 handleInput(0, event.getSource());
+            } else if (event.getCode() == KeyCode.N) {
+                handleNewGameButtonClick();
+            } else if (event.getCode() == KeyCode.Q
+                    || event.getCode() == KeyCode.ESCAPE) {
+                Alert dialog = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to quit?", ButtonType.YES,
+                        ButtonType.NO);
+                dialog.showAndWait();
+                if (dialog.getResult() == ButtonType.YES) {
+                    stage.close();
+                }
             }
         }
-
         event.consume();
     }
 
