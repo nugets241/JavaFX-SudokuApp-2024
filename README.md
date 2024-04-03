@@ -2,7 +2,11 @@
 
 ![Sudoku App Demo](SudokuAppDemo.gif)
 
-This is a Sudoku game application developed in Java using JavaFX programatically for the graphical user interface. The application was inspired by a tutorial from Ryan Micheal Kay's YouTube channel, which can be found [here](https://www.youtube.com/watch?v=JFiEYuyTgL8&t=876s).
+This is a Sudoku game application developed in Java using JavaFX programmatically for the graphical user interface. The application was inspired by a tutorial from Ryan Micheal Kay's YouTube channel, which can be found [here](https://www.youtube.com/watch?v=JFiEYuyTgL8&t=876s).
+
+## Updates
+
+- The `SudokuSolver` class has been updated to fix a logical error in the `puzzleIsSolvable` method. The method now correctly checks if a puzzle is solvable and handles backtracking properly.
 
 ## Prerequisites
 
@@ -43,4 +47,4 @@ The game starts with a partially filled grid. The goal is to fill in the missing
 
 ## Acknowledgments
 
-- Ryan Micheal Kay for the original Sudoku game tutorial. This application was inspired by his tutorial, but includes several enhancements such as a different style, improved input handling, a new game button, and minor code changes. Additionally, Javadocs have been added for better code documentation.
+- Ryan Micheal Kay for the original Sudoku game tutorial. This application was inspired by his tutorial, but includes several enhancements such as a different style, improved input handling, a new game button, and updates. Additionally, Javadocs have been added for better code documentation.
