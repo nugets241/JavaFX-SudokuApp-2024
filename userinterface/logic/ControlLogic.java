@@ -115,7 +115,7 @@ public class ControlLogic implements IUserInterfaceContract.EventListener {
         try {
             SudokuGame newGame = GameLogic.getNewGame();
             storage.updateGameData(newGame);
-            view.updateBoard(newGame);
+            view.updateBoard(storage.getGameData());
         } catch (IOException e) {
             view.showError(Messages.ERROR);
         }
