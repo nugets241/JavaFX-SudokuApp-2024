@@ -1,5 +1,6 @@
 package userinterface;
 
+import constants.Difficulty;
 import constants.GameState;
 import problemdomain.Coordinates;
 import problemdomain.SudokuGame;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -27,7 +29,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * This class represents the user interface for the Sudoku game. It implements
@@ -156,21 +162,72 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
     }
 
     /**
-     * Draws the New Game button on the main UI container.
+     * Draws a new game button on the specified container.
+     * When the button is clicked, a dialog is shown for selecting the difficulty level.
+     * If a difficulty level is selected, the game's difficulty level is set to the selected level and a new game is started.
      *
-     * @param mainUIContainer The VBox on which the button is to be drawn.
+     * @param mainUIContainer the container on which to draw the new game button
      */
     private void drawNewGameButton(VBox mainUIContainer) {
-        Button newGameButton = new Button("New Game");
+        Button newGameButton = createNewGameButton();
+        ChoiceDialog<String> dialog = createDifficultyDialog();
+        Map<String, Difficulty> difficultyMap = createDifficultyMap();
+
         newGameButton.setOnAction(e -> {
-            listener.onNewGameButtonClick();
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                SudokuGame.setDifficulty(difficultyMap.get(result.get()));
+                listener.onNewGameButtonClick();
+            }
         });
 
-        // Set the style of the button
-        newGameButton.setStyle(
-                "-fx-background-color: rgb(213, 228, 236); -fx-text-fill: rgba(0, 0, 0, 0.8); -fx-font-family: 'Comic Sans MS'; -fx-font-weight: BOLD; -fx-font-size: 25px;");
-
         mainUIContainer.getChildren().add(newGameButton);
+    }
+
+    /**
+     * Creates a new game button with a specific style.
+     *
+     * @return a new Button instance with the specified style
+     */
+    private Button createNewGameButton() {
+        Button newGameButton = new Button("New Game");
+        newGameButton.setStyle("-fx-background-color: rgb(213, 228, 236); -fx-text-fill: rgba(0, 0, 0, 0.8); -fx-font-family: 'Comic Sans MS'; -fx-font-weight: BOLD; -fx-font-size: 25px;");
+        return newGameButton;
+    }
+
+    /**
+     * Creates a dialog for selecting the difficulty level.
+     *
+     * @return a new ChoiceDialog instance for selecting the difficulty level
+     */
+    private ChoiceDialog<String> createDifficultyDialog() {
+        List<String> choices = new ArrayList<>();
+        choices.add(Difficulty.EASY.getName());
+        choices.add(Difficulty.MEDIUM.getName());
+        choices.add(Difficulty.HARD.getName());
+        choices.add(Difficulty.EXPERT.getName());
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(SudokuGame.getDifficultyName(), choices);
+        dialog.setTitle("Select Difficulty");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Choose your difficulty:");
+
+        return dialog;
+    }
+
+    /**
+     * Creates a map that maps difficulty names to Difficulty instances.
+     *
+     * @return a new Map instance that maps difficulty names to Difficulty instances
+     */
+    private Map<String, Difficulty> createDifficultyMap() {
+        Map<String, Difficulty> difficultyMap = new HashMap<>();
+        difficultyMap.put("Easy", Difficulty.EASY);
+        difficultyMap.put("Medium", Difficulty.MEDIUM);
+        difficultyMap.put("Hard", Difficulty.HARD);
+        difficultyMap.put("Expert", Difficulty.EXPERT);
+
+        return difficultyMap;
     }
 
     /**
