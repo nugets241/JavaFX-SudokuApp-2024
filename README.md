@@ -1,6 +1,6 @@
 # Sudoku Game Application
 
-![Sudoku App Demo](SudokuAppDemo.gif)
+<img src="./AppImages/SudokuApp1.png" alt="SudokuApp" width="400"/>
 
 This is a Sudoku game application developed in Java using JavaFX programmatically for the graphical user interface. The application was inspired by a tutorial from Ryan Micheal Kay's YouTube channel, which can be found [here](https://www.youtube.com/watch?v=JFiEYuyTgL8&t=876s).
 
