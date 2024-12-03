@@ -24,6 +24,13 @@ public class LocalStorageImpl implements IStorage {
         GAME_DATA = new File(sudokuDataDir, "gamedata.txt");
     }
 
+    /**
+     * Updates the game data by saving the current state of the Sudoku game to a
+     * file.
+     *
+     * @param game The current state of the Sudoku game to be saved.
+     * @throws IOException If an I/O error occurs while saving the game data.
+     */
     @Override
     public void updateGameData(SudokuGame game) throws IOException {
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(GAME_DATA))) {
@@ -33,6 +40,13 @@ public class LocalStorageImpl implements IStorage {
         }
     }
 
+    /**
+     * Retrieves the game data by loading the saved state of the Sudoku game from a
+     * file.
+     *
+     * @return The saved state of the Sudoku game.
+     * @throws IOException If an I/O error occurs while loading the game data.
+     */
     @Override
     public SudokuGame getGameData() throws IOException {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(GAME_DATA))) {

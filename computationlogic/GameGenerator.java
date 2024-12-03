@@ -158,6 +158,15 @@ class GameGenerator {
         return solvableArray;
     }
 
+    /**
+     * Generates a 2D boolean array representing the disabled state of each tile in
+     * the Sudoku grid.
+     * A tile is disabled if it has a non-zero value in the provided grid.
+     *
+     * @param grid The current state of the Sudoku grid.
+     * @return A 2D boolean array where true indicates the tile is disabled and
+     *         false indicates it is enabled.
+     */
     public static boolean[][] getDisabledTiles(int[][] grid) {
         boolean[][] disabledTiles = new boolean[GRID_BOUNDARY][GRID_BOUNDARY];
         for (int xIndex = 0; xIndex < GRID_BOUNDARY; xIndex++) {

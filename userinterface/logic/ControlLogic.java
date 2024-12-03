@@ -46,18 +46,17 @@ public class ControlLogic implements IUserInterfaceContract.EventListener {
     }
 
     /**
-     * Handles the input from the user interface for a Sudoku game.
-     * This method retrieves the current game data, updates the grid state with the
-     * user's input,
-     * and then updates the game data in storage. It also updates the view to
-     * reflect the new input.
-     * If the game is complete after the input, it shows a completion dialog.
-     * If an error occurs during this process, it shows an error dialog.
+     * Handles the input event when a user inputs a value into the Sudoku grid.
      *
-     * @param x     The x-coordinate of the selected input.
-     * @param y     The y-coordinate of the selected input.
-     * @param input The value entered by the user, expected to be an integer from
-     *              0-9, inclusive.
+     * This method updates the game state with the new input, saves the updated game
+     * state,
+     * and updates the view to reflect the new input. If the game is complete, it
+     * shows a
+     * completion dialog.
+     *
+     * @param x     The x-coordinate of the input.
+     * @param y     The y-coordinate of the input.
+     * @param input The value input by the user.
      */
     @Override
     public void onSudokuInput(int x, int y, int input) {
@@ -82,11 +81,11 @@ public class ControlLogic implements IUserInterfaceContract.EventListener {
     }
 
     /**
-     * Handles the click event from a dialog in the user interface for a Sudoku
-     * game.
-     * This method updates the game data in storage with a new game and updates the
-     * board view to reflect the new game.
-     * If an error occurs during this process, it shows an error dialog.
+     * Handles the event when a dialog is clicked.
+     *
+     * This method creates a new game, saves the new game state, and updates the
+     * view
+     * to reflect the new game.
      */
     @Override
     public void onDialogClick() {
