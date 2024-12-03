@@ -1,7 +1,6 @@
 package userinterface;
 
 import constants.Difficulty;
-import constants.GameState;
 import problemdomain.Coordinates;
 import problemdomain.SudokuGame;
 import javafx.event.EventHandler;
@@ -506,9 +505,9 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
      * It iterates over the 9x9 grid and updates each square with the corresponding
      * value from the game's grid state.
      * If a square's value is 0, it is cleared.
-     * If the game's state is NEW and a square has a non-zero value, the square is
-     * marked as read-only.
-     * Otherwise, the square is editable.
+     * Each square's disabled state is set based on the game's disabledTiles array.
+     * If a square is disabled, it is marked as read-only with reduced opacity.
+     * Otherwise, the square is editable with full opacity.
      *
      * @param game The current Sudoku game whose state is used to update the board.
      */
