@@ -158,6 +158,18 @@ class GameGenerator {
         return solvableArray;
     }
 
+    public static boolean[][] getDisabledTiles(int[][] grid) {
+        boolean[][] disabledTiles = new boolean[GRID_BOUNDARY][GRID_BOUNDARY];
+        for (int xIndex = 0; xIndex < GRID_BOUNDARY; xIndex++) {
+            for (int yIndex = 0; yIndex < GRID_BOUNDARY; yIndex++) {
+                if (grid[xIndex][yIndex] != 0) {
+                    disabledTiles[xIndex][yIndex] = true;
+                }
+            }
+        }
+        return disabledTiles;
+    }
+
     /**
      * This method sets all the values in the provided 2D array to 0.
      * It iterates over each element in the array and sets its value to 0.

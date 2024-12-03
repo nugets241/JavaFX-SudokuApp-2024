@@ -26,9 +26,12 @@ public class GameLogic {
      * @return A new SudokuGame instance representing the new game.
      */
     public static SudokuGame getNewGame() {
+        int[][] newGameGrid = GameGenerator.getNewGameGrid();
+        boolean[][] disabledTiles = GameGenerator.getDisabledTiles(newGameGrid);
         return new SudokuGame(
                 GameState.NEW,
-                GameGenerator.getNewGameGrid());
+                newGameGrid,
+                disabledTiles);
     }
 
     /**

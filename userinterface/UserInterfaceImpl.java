@@ -518,25 +518,19 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
             for (int yIndex = 0; yIndex < 9; yIndex++) {
                 TextField tile = textFieldCoordinates.get(new Coordinates(xIndex, yIndex));
 
-                String value = Integer.toString(
-                        game.getCopyOfGridState()[xIndex][yIndex]);
+                String value = Integer.toString(game.getCopyOfGridState()[xIndex][yIndex]);
 
                 if (value.equals("0"))
                     value = "";
-                tile.setText(
-                        value);
+                tile.setText(value);
 
-                // If a given tile has a non-zero value and the state of the game is
-                // GameState.NEW, then mark
-                // the tile as read only. Otherwise, ensure that it is NOT read only.
-                if (game.getGameState() == GameState.NEW) {
-                    if (value.equals("")) {
-                        tile.setStyle("-fx-opacity: 1;");
-                        tile.setDisable(false);
-                    } else {
-                        tile.setStyle("-fx-opacity: 0.8;");
-                        tile.setDisable(true);
-                    }
+                boolean isDisabled = game.getCopyOfDisabledTiles()[xIndex][yIndex];
+                tile.setDisable(isDisabled);
+
+                if (isDisabled) {
+                    tile.setStyle("-fx-opacity: 0.8;");
+                } else {
+                    tile.setStyle("-fx-opacity: 1;");
                 }
             }
         }

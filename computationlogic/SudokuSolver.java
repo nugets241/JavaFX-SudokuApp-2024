@@ -81,6 +81,20 @@ public class SudokuSolver {
                 } else {
                     cellValues[index] = input;
                     if (index == emptyCells.length - 1) {
+                        int counter = 0;
+                        System.out.println("Solution found!");
+                        for (int row : cellValues) {
+                            System.out.print(row + " ");
+                            counter++;
+                            if (counter == 5) {
+                                System.out.print("- ");
+                            }
+                            if (counter == 10) {
+                                System.out.println();
+                                counter = 0;
+                            }
+                        }
+                        System.out.println();
                         return true;
                     }
                     index++;
@@ -109,8 +123,8 @@ public class SudokuSolver {
     private static Coordinates[] typeWriterEnumerate(int[][] puzzle, int emptyCellsCount) {
         Coordinates[] emptyCells = new Coordinates[emptyCellsCount];
         int iterator = 0;
-        for (int y = 0; y < GRID_BOUNDARY; y++) {
-            for (int x = 0; x < GRID_BOUNDARY; x++) {
+        for (int x = 0; x < GRID_BOUNDARY; x++) {
+            for (int y = 0; y < GRID_BOUNDARY; y++) {
                 if (puzzle[x][y] == 0) {
                     emptyCells[iterator] = new Coordinates(x, y);
                     if (iterator == emptyCellsCount - 1)

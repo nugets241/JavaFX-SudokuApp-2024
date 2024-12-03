@@ -64,20 +64,17 @@ public class ControlLogic implements IUserInterfaceContract.EventListener {
         try {
             SudokuGame gameData = storage.getGameData();
             int[][] newGridState = gameData.getCopyOfGridState();
+            boolean[][] newDisabledTiles = gameData.getCopyOfDisabledTiles();
             newGridState[x][y] = input;
 
-            gameData = new SudokuGame(
-                    GameLogic.checkForCompletion(newGridState),
-                    newGridState);
-
+            gameData = new SudokuGame(GameLogic.checkForCompletion(newGridState), newGridState, newDisabledTiles);
             storage.updateGameData(gameData);
 
-            // either way, update the view
             view.updateSquare(x, y, input);
 
-            // if game is complete, show dialog
-            if (gameData.getGameState() == GameState.COMPLETE)
+            if (gameData.getGameState() == GameState.COMPLETE) {
                 view.showDialog(Messages.GAME_COMPLETE);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             view.showError(Messages.ERROR);
@@ -94,9 +91,7 @@ public class ControlLogic implements IUserInterfaceContract.EventListener {
     @Override
     public void onDialogClick() {
         try {
-            storage.updateGameData(
-                    GameLogic.getNewGame());
-
+            storage.updateGameData(GameLogic.getNewGame());
             view.updateBoard(storage.getGameData());
         } catch (IOException e) {
             view.showError(Messages.ERROR);

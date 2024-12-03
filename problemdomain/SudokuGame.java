@@ -28,6 +28,7 @@ import java.io.Serializable;
  * @see SudokuUtilities
  */
 public class SudokuGame implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * The difficulty level of the Sudoku game. It is initially set to MEDIUM.
@@ -48,6 +49,12 @@ public class SudokuGame implements Serializable {
     private final int[][] gridState;
 
     /**
+     * The `disabledTiles` field represents the disabled state of each tile.
+     * It is a 2D array where each element is a boolean indicating whether the tile is disabled.
+     */
+    private final boolean[][] disabledTiles;
+
+    /**
      * The constant GRID_BOUNDARY represents the size of the Sudoku grid.
      * It is set to 9, indicating a standard 9x9 Sudoku grid.
      */
@@ -56,19 +63,22 @@ public class SudokuGame implements Serializable {
     /**
      * Constructs a new SudokuGame instance.
      *
-     * @param gameState The initial state of the game, represented by the
-     *                  `GameState` enum:
+     * @param gameState The initial state of the game, represented by the `GameState` enum:
      *                  - `GameState.Complete`: The game is complete.
      *                  - `GameState.Active`: The game is active.
+     *                  - `GameState.New`: The game is new.
      * @param gridState The initial state of the Sudoku grid. It's a 2D array where
      *                  each element corresponds to a cell in the Sudoku grid.
      *                  The value in each cell is an integer between 0 and 9, where
      *                  0 represents an empty cell and 1-9 represent the respective
      *                  numbers in the Sudoku game.
+     * @param disabledTiles A 2D array representing the disabled state of each tile.
+     *                      Each element is a boolean where true means the tile is disabled.
      */
-    public SudokuGame(GameState gameState, int[][] gridState) {
+    public SudokuGame(GameState gameState, int[][] gridState, boolean[][] disabledTiles) {
         this.gameState = gameState;
         this.gridState = gridState;
+        this.disabledTiles = disabledTiles;
     }
 
     /**
@@ -94,6 +104,19 @@ public class SudokuGame implements Serializable {
      */
     public int[][] getCopyOfGridState() {
         return SudokuUtilities.copyToNewArray(gridState);
+    }
+
+    /**
+     * Returns a copy of the disabled state of the tiles.
+     *
+     * This method uses the `copyToNewArray` method from the
+     * [`SudokuUtilities`](computationlogic/SudokuUtilities.java) class
+     * to create a new 2D array with the same values as `disabledTiles`.
+     *
+     * @return A new 2D array representing the disabled state of the tiles.
+     */
+    public boolean[][] getCopyOfDisabledTiles() {
+        return SudokuUtilities.copyToNewArray(disabledTiles);
     }
 
     /**

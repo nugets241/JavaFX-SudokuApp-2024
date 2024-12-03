@@ -14,11 +14,7 @@ import java.io.*;
  * If the "SudokuData" directory does not exist, it is created.
  */
 public class LocalStorageImpl implements IStorage {
-
-    /**
-     * The file where the game data is stored.
-     */
-    private static File GAME_DATA;
+    private static final File GAME_DATA;
 
     static {
         File sudokuDataDir = new File(System.getProperty("user.home"), "SudokuData");
@@ -28,43 +24,21 @@ public class LocalStorageImpl implements IStorage {
         GAME_DATA = new File(sudokuDataDir, "gamedata.txt");
     }
 
-    /**
-     * Updates the game data stored in the file with the provided SudokuGame
-     * instance.
-     *
-     * @param game the SudokuGame instance to be stored
-     * @throws IOException if an I/O error occurs while updating the game data
-     */
     @Override
     public void updateGameData(SudokuGame game) throws IOException {
-        try {
-
-            FileOutputStream fileOutputStream = new FileOutputStream(GAME_DATA);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(GAME_DATA))) {
             objectOutputStream.writeObject(game);
-            objectOutputStream.close();
         } catch (IOException e) {
-            throw new IOException("Unable to access Game Data");
+            throw new IOException("Unable to access Game Data", e);
         }
     }
 
-    /**
-     * Retrieves the stored SudokuGame data from the file.
-     *
-     * @return the stored SudokuGame instance
-     * @throws IOException if an I/O error occurs while retrieving the game data
-     */
     @Override
     public SudokuGame getGameData() throws IOException {
-        FileInputStream fileInputStream = new FileInputStream(GAME_DATA);
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-        try {
-            SudokuGame gameState = (SudokuGame) objectInputStream.readObject();
-            return gameState;
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(GAME_DATA))) {
+            return (SudokuGame) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {
-            throw new IOException("File Not Found");
-        } finally {
-            objectInputStream.close();
+            throw new IOException("File Not Found", e);
         }
     }
 }

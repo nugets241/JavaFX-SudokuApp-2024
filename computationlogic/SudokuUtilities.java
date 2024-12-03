@@ -24,15 +24,34 @@ public class SudokuUtilities {
     }
 
     /**
-     * Creates and returns a new 2D array with the same values as the inputted
-     * array.
+     * Creates a new 2D array with the same values as the input array.
      *
-     * @param oldArray The original Sudoku grid to copy values from.
-     * @return A new 2D array with the same values as the inputted array.
+     * @param array The input 2D array.
+     * @return A new 2D array with the same values as the input array.
      */
-    public static int[][] copyToNewArray(int[][] oldArray) {
-        int[][] newArray = new int[SudokuGame.GRID_BOUNDARY][SudokuGame.GRID_BOUNDARY];
-        copySudokuArrayValues(oldArray, newArray);
+    public static int[][] copyToNewArray(int[][] array) {
+        int[][] newArray = new int[array.length][array[0].length];
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                newArray[i][j] = array[i][j];
+            }
+        }
+        return newArray;
+    }
+
+    /**
+     * Creates a new 2D array with the same values as the input boolean array.
+     *
+     * @param array The input 2D boolean array.
+     * @return A new 2D boolean array with the same values as the input array.
+     */
+    public static boolean[][] copyToNewArray(boolean[][] array) {
+        boolean[][] newArray = new boolean[array.length][array[0].length];
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                newArray[i][j] = array[i][j];
+            }
+        }
         return newArray;
     }
 }
