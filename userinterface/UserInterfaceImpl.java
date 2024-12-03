@@ -563,14 +563,14 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
     }
 
     /**
-     * Handles key events from the user interface.
-     * If the key pressed corresponds to a number from 0 to 9, it calls the
-     * handleInput method with the number and the source of the event.
-     * If the key pressed is the backspace key, it calls the handleInput method with
-     * 0 and the source of the event.
-     * The event is then consumed to prevent further propagation.
+     * Handles key events for the Sudoku board.
      *
-     * @param event The KeyEvent to handle.
+     * This method processes various key events such as number input, backspace, new
+     * game,
+     * quit, and arrow keys for navigation. It updates the game state and view
+     * accordingly.
+     *
+     * @param event The key event to handle.
      */
     @Override
     public void handle(KeyEvent event) {
@@ -582,17 +582,69 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
                 handleInput(0, event.getSource());
             } else if (event.getCode() == KeyCode.N) {
                 handleNewGameButtonClick();
-            } else if (event.getCode() == KeyCode.Q
-                    || event.getCode() == KeyCode.ESCAPE) {
+            } else if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.ESCAPE) {
                 Alert dialog = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to quit?", ButtonType.YES,
                         ButtonType.NO);
                 dialog.showAndWait();
                 if (dialog.getResult() == ButtonType.YES) {
                     stage.close();
                 }
+            } else if (event.getCode() == KeyCode.RIGHT) {
+                moveFocus(event.getSource(), 1, 0);
+            } else if (event.getCode() == KeyCode.LEFT) {
+                moveFocus(event.getSource(), -1, 0);
+            } else if (event.getCode() == KeyCode.UP) {
+                moveFocus(event.getSource(), 0, -1);
+            } else if (event.getCode() == KeyCode.DOWN) {
+                moveFocus(event.getSource(), 0, 1);
             }
         }
         event.consume();
+    }
+
+    /**
+     * Moves the focus to the next editable tile in the specified direction.
+     *
+     * This method calculates the new coordinates based on the current tile and the
+     * specified direction (deltaX and deltaY). It then moves the focus to the next
+     * editable tile in that direction.
+     *
+     * @param source The source of the key event.
+     * @param deltaX The change in the x-coordinate.
+     * @param deltaY The change in the y-coordinate.
+     */
+    private void moveFocus(Object source, int deltaX, int deltaY) {
+        if (source instanceof TextField) {
+            TextField currentTile = (TextField) source;
+            Coordinates currentCoordinates = null;
+
+            // Find the current coordinates of the focused tile
+            for (Map.Entry<Coordinates, SudokuTextField> entry : textFieldCoordinates.entrySet()) {
+                if (entry.getValue().equals(currentTile)) {
+                    currentCoordinates = entry.getKey();
+                    break;
+                }
+            }
+
+            if (currentCoordinates != null) {
+                int newX = currentCoordinates.getX() + deltaX;
+                int newY = currentCoordinates.getY() + deltaY;
+
+                // Ensure the new coordinates are within bounds
+                while (newX >= 0 && newX < 9 && newY >= 0 && newY < 9) {
+                    Coordinates newCoordinates = new Coordinates(newX, newY);
+                    TextField newTile = textFieldCoordinates.get(newCoordinates);
+
+                    if (newTile != null && !newTile.isDisabled()) {
+                        newTile.requestFocus();
+                        break;
+                    }
+
+                    newX += deltaX;
+                    newY += deltaY;
+                }
+            }
+        }
     }
 
     /**
