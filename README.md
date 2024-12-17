@@ -8,13 +8,17 @@ This is a Sudoku game application developed in Java using JavaFX programmaticall
 
 ### Latest Update
 
-- Added keyboard shortcuts for starting a new game and quitting the game, and updated GUI to display these shortcuts.
+- Added the ability to navigate between editable tiles using arrow keys, improving user experience. Now the game is completely playable using only the keyboard, without the need for a mouse.
 
 ### Previous Updates
 
+- Enhanced Sudoku game logic by adding disabled tile tracking so that when resuming a game after closing it, all the tiles that are supposed to be disabled will remain disabled, improving game state management.
+
+- Added keyboard shortcuts for starting a new game and quitting the game, and updated the GUI to display these shortcuts.
+
 - Added a feature to select the difficulty level when clicking the 'New Game' button to start a new game. This influences the number of empty cells in the generated puzzle.
 
-- The `SudokuSolver` class has been updated to fix a logical error in the `puzzleIsSolvable` method. The method now correctly checks if a puzzle is solvable and handles backtracking properly.
+- Updated the `SudokuSolver` class to fix a logical error in the `puzzleIsSolvable` method. The method now correctly checks if a puzzle is solvable and handles backtracking properly.
 
 ## Prerequisites
 
