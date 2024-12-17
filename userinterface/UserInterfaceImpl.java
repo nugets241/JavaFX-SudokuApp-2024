@@ -630,6 +630,21 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
                 int newX = currentCoordinates.getX() + deltaX;
                 int newY = currentCoordinates.getY() + deltaY;
 
+                // Handle wrapping around the grid
+                if (newX >= 9) {
+                    newX = 0;
+                    newY++;
+                } else if (newX < 0) {
+                    newX = 8;
+                    newY--;
+                }
+
+                if (newY >= 9) {
+                    newY = 0;
+                } else if (newY < 0) {
+                    newY = 8;
+                }
+
                 // Ensure the new coordinates are within bounds
                 while (newX >= 0 && newX < 9 && newY >= 0 && newY < 9) {
                     Coordinates newCoordinates = new Coordinates(newX, newY);
@@ -642,6 +657,21 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
 
                     newX += deltaX;
                     newY += deltaY;
+
+                    // Handle wrapping around the grid again
+                    if (newX >= 9) {
+                        newX = 0;
+                        newY++;
+                    } else if (newX < 0) {
+                        newX = 8;
+                        newY--;
+                    }
+
+                    if (newY >= 9) {
+                        newY = 0;
+                    } else if (newY < 0) {
+                        newY = 8;
+                    }
                 }
             }
         }
